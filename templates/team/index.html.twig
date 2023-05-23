@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team{% endblock %}
+
+{% block body %}
+
+    {% block page_heading %}Teams{% endblock %}
+
+    <div class="fa-align-right">
+        <a href="{{ path('app_team_new') }}">Create new</a>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Active</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for team in teams %}
+            <tr>
+                <td>{{ team.id }}</td>
+                <td>{{ team.name }}</td>
+                <td>{{ team.isActive ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_team_show', {'id': team.id}) }}"><i class="bi bi-binoculars"></i></a>
+                    <a href="{{ path('app_team_edit', {'id': team.id}) }}"><i class="bi bi-pencil-square"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
