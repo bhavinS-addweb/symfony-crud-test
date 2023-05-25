@@ -21,6 +21,7 @@ Application to Store users as manager/player and manager can sell/buy players.
 - A form with sell/buy based on player vancancy.
 - Create an event + notification, when a user sell/buy.
   ## Application Testing with Phpunit.
-  - **test database**
-  - **test controller**
+  - set **.env.test**
+  - add databse name to .env.test 
+  - create **test controller**
   - **DataFixtures** for generating/seeding data.  
