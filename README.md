@@ -17,6 +17,6 @@ Application to Store users as manager/player and manager can sell/buy players.
 - ``php bin/console doctrine:migrations:migrate``
 - ``php bin/console server:run``
 
-# Left with below points:
+# TBD:
 - A form with sell/buy based on player vancancy.
 - Create an event + notification, when a user sell/buy.
