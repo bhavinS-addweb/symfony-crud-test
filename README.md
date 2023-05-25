@@ -18,5 +18,5 @@ Application to Store users as manager/player and manager can sell/buy players.
 - ``php bin/console server:run``
 
 # Left with below points:
-- A form with sell/purchase based on player vancancy.
-- Create an event + notification, when a user sell/purchase.
+- A form with sell/buy based on player vancancy.
+- Create an event + notification, when a user sell/buy.
