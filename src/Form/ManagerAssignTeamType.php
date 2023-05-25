@@ -2,25 +2,31 @@
 
 namespace App\Form;
 
-use App\Entity\Player;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PlayerType extends AbstractType
+class ManagerAssignTeamType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('is_active')
+            ->add(
+                'teams',
+                ChoiceList::class,
+                [
+                    'teams' => $options['teams']
+                ]
+            )
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Player::class,
+            'data_class' => User::class,
         ]);
     }
 }

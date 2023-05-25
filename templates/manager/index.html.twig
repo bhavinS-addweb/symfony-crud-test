@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Player index{% endblock %}
-{% block title_header %}Player index{% endblock %}
+{% block title %}Manager Listing{% endblock %}
+{% block title_header %}Manager{% endblock %}
 
 {% block body %}
 <div class="table-responsive">
@@ -14,12 +14,12 @@
         </tr>
         </thead>
         <tbody>
-        {% for player in players %}
+        {% for manager in managers %}
             <tr>
-                <td>{{ player.id }}</td>
-                <td>{{ player.name }}</td>
+                <td>{{ manager.id }}</td>
+                <td>{{ manager.name }}</td>
                 <td>
-                    <a href="{{ path('app_player_show', {'id': player.id}) }}">show</a>
+                    <a href="{{ path('app_manager_show', {'id': manager.id}) }}">show</a>
                 </td>
             </tr>
         {% else %}

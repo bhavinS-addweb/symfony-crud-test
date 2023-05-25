@@ -6,12 +6,10 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
-import './styles/sb-admin-2.css';
-
 import 'bootstrap/scss/bootstrap.scss';
 import 'bootstrap-icons/font/bootstrap-icons.scss';
-import '@fortawesome/fontawesome-free';
-import 'datatables.net-bs4';
+import './styles/app.css';
+const $ = require('jquery');
+require('bootstrap');
 // start the Stimulus application
 import './bootstrap';

@@ -2,14 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TeamRepository;
+use App\Config\UserTypeEnum;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Timestampable;
 
-#[ORM\Entity(repositoryClass: TeamRepository::class)]
-class Team
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,7 +21,7 @@ class Team
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?bool $is_active = null;
+    private ?UserTypeEnum $type_id = null;
 
     #[ORM\Column]
     #[Timestampable([],'create')]
@@ -30,15 +31,17 @@ class Team
     #[Timestampable()]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToMany(mappedBy: 'team', targetEntity: Player::class)]
-    private Collection $players;
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
 
-    #[ORM\OneToMany(mappedBy: 'team_id', targetEntity: PlayerTeam::class)]
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?PlayerTeam $playerTeam = null;
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: PlayerTeam::class)]
     private Collection $playerTeams;
 
     public function __construct()
     {
-        $this->players = new ArrayCollection();
         $this->playerTeams = new ArrayCollection();
     }
 
@@ -59,14 +62,14 @@ class Team
         return $this;
     }
 
-    public function isIsActive(): ?bool
+    public function isTypeId(): ?UserTypeEnum
     {
-        return $this->is_active;
+        return $this->type_id;
     }
 
-    public function setIsActive(bool $is_active): self
+    public function setTypeId(UserTypeEnum $type_id): self
     {
-        $this->is_active = $is_active;
+        $this->type_id = $type_id;
 
         return $this;
     }
@@ -95,38 +98,33 @@ class Team
         return $this;
     }
 
-    /**
-     * @return Collection<int, Player>
-     */
-    public function getPlayers(): Collection
+    public function getPrice(): ?float
     {
-        return $this->players;
+        return $this->price;
     }
 
-    public function addPlayer(Player $player): self
+    public function setPrice(?float $price): self
     {
-        if (!$this->players->contains($player)) {
-            $this->players->add($player);
-            $player->setTeam($this);
-        }
+        $this->price = $price;
 
         return $this;
     }
 
-    public function removePlayer(Player $player): self
+    public function getPlayerTeam(): ?PlayerTeam
     {
-        if ($this->players->removeElement($player)) {
-            // set the owning side to null (unless already changed)
-            if ($player->getTeam() === $this) {
-                $player->setTeam(null);
-            }
-        }
-
-        return $this;
+        return $this->playerTeam;
     }
 
-    public function __toString() {
-        return $this->name;
+    public function setPlayerTeam(PlayerTeam $playerTeam): self
+    {
+        // set the owning side of the relation if necessary
+        if ($playerTeam->getUser() !== $this) {
+            $playerTeam->setUser($this);
+        }
+
+        $this->playerTeam = $playerTeam;
+
+        return $this;
     }
 
     /**
@@ -141,7 +139,7 @@ class Team
     {
         if (!$this->playerTeams->contains($playerTeam)) {
             $this->playerTeams->add($playerTeam);
-            $playerTeam->setTeamId($this);
+            $playerTeam->setManager($this);
         }
 
         return $this;
@@ -151,8 +149,8 @@ class Team
     {
         if ($this->playerTeams->removeElement($playerTeam)) {
             // set the owning side to null (unless already changed)
-            if ($playerTeam->getTeamId() === $this) {
-                $playerTeam->setTeamId(null);
+            if ($playerTeam->getManager() === $this) {
+                $playerTeam->setManager(null);
             }
         }
 
