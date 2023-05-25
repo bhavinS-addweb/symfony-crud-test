@@ -6,7 +6,7 @@ Application to Store users as manager/player and manager can sell/buy players.
 
 # system requirement
 - PHP 8.1.0 or higher;
-- Mysql
+- Mysql 8.1
 
 # Usage
 - Clone the repo
